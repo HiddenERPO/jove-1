@@ -1,23 +1,30 @@
 package.path = package.path .. ';.luarocks/share/lua/5.2/?.lua'
 .. ';.luarocks/share/lua/5.2/?/init.lua'
 package.cpath = package.cpath .. ';.luarocks/lib/lua/5.2/?.so'
+
+-- @MuteTeam
 http = require("socket.http")
 https = require("ssl.https")
 http.TIMEOUT = 10
 JSON = require('dkjson')
+-------@MuteTeam
 tdcli = dofile('tdcli.lua')
 redis = (loadfile "./libs/redis.lua")()
 serpent = require('serpent')
 serp = require 'serpent'.block
 sudo_users = {
     218722292,
-    yourid,
+    your id,
     0
 }
 
----- function leave
-function chat_leave(chat_id, user_id)
-  changeChatMemberStatus(chat_id, user_id, "Left")
+function string:split(sep)
+  local sep, fields = sep or ":", {}
+  local pattern = string.format("([^%s]+)", sep)
+  self:gsub(pattern, function(c)
+    fields[#fields + 1] = c
+  end)
+  return fields
 end
 
 function is_sudo(msg)
@@ -1153,19 +1160,7 @@ if input:match("^[#!/][Jj][Oo][Vv][Ee]$") and is_mod(msg) or input:match("^[Jj][
       if input:match("^[#!/]view") and is_sudo(msg) or input:match("^view") and is_sudo(msg) then
         tdcli.viewMessages(chat_id, {[0] = msg.id_})
         tdcli.sendText(chat_id, msg.id_, 0, 1, nil, '🏅<i>پیام خوانده شد</i>', 1, 'html')
-      end
- if input:match("^[#!/]setnerkh") and is_sudo(msg) or input:match("^setnerkh") and is_sudo(msg) then
-  if not is_admin(msg) then 
- tdcli.sendText(chat_id, msg.id_, 0, 1, nil, '🏅<i>شما سودو نیستید</i>', 1, 'html')
-end 
-local nerkh = matches[2] 
-redis:set('bot:nerkh',nerkh) 
- tdcli.sendText(chat_id, msg.id_, 0, 1, nil, '🏅<i>متن شما با موفقیت تنظیم شد</i>', 1, 'html')
-end 			
- if input:match("^[#!/]leave") and is_sudo(msg) then
-         tdcli.chat_leave(chat_id, {[0] = msg.id_})
-         tdcli.sendText(chat_id, msg.id_, 0, 1, nil, '<code>باشه!خدافظي :)</code>', 1, 'html')
-       end
+      end			
     end
 
     local input = msg.content_.text_
